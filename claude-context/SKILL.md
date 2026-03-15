@@ -11,16 +11,13 @@ Check context window usage for Claude Code sessions by reading `.jsonl` session 
 
 - "how much context is this session using?"
 - "check context for session X"
-- "list all claude sessions"
 - "show session info for <id>"
 
 ## Commands
 
 ```bash
-# List all sessions (sorted by most recent)
-python3 .claude/skills/claude-context/scripts/session_summary.py
-
 # Show context summary for a session (full or partial ID)
+# Falls back to $AGENT_SESSION_ID env var if no argument given
 python3 .claude/skills/claude-context/scripts/session_summary.py <session-id>
 
 # Filter sessions by project name

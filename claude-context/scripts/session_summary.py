@@ -265,18 +265,6 @@ def calculate_auto_compact(context_used: int, context_window: int) -> dict:
 
 # ── Output ──────────────────────────────────────────────────────────────────
 
-def print_session_list(sessions: list[Path]):
-    print(f"\n{'ID':<40} {'Project':<45} {'Modified':<20} {'Size':>8}")
-    print("\u2500" * 115)
-    for s in sessions:
-        sid = s.stem[:36]
-        project = s.parent.name[:43]
-        mtime = datetime.fromtimestamp(s.stat().st_mtime).strftime("%Y-%m-%d %H:%M")
-        size = f"{s.stat().st_size / 1024:.0f}KB"
-        print(f"{sid:<40} {project:<45} {mtime:<20} {size:>8}")
-    print(f"\nTotal: {len(sessions)} sessions")
-    print("Tip: pass a session ID (or prefix) as argument to see details.\n")
-
 
 def print_session_summary(summary: SessionSummary):
     ac = calculate_auto_compact(summary.context_used, summary.context_window)
@@ -337,13 +325,15 @@ def main():
         print("No sessions found.", file=sys.stderr)
         sys.exit(1)
 
-    if not args.session_id:
-        print_session_list(sessions)
-        return
+    session_id = args.session_id or os.environ.get("AGENT_SESSION_ID")
 
-    match = match_session(sessions, args.session_id)
+    if not session_id:
+        print("Error: No session ID provided. Pass as argument or set AGENT_SESSION_ID.", file=sys.stderr)
+        sys.exit(1)
+
+    match = match_session(sessions, session_id)
     if not match:
-        print(f"Error: No session matching '{args.session_id}'", file=sys.stderr)
+        print(f"Error: No session matching '{session_id}'", file=sys.stderr)
         print("Available sessions:")
         for s in sessions[:10]:
             print(f"  {s.stem}")
