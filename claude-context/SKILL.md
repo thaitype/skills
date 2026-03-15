@@ -16,15 +16,11 @@ Check context window usage for Claude Code sessions by reading `.jsonl` session 
 ## Commands
 
 ```bash
-# Show context summary for a session (full or partial ID)
-# Falls back to $AGENT_SESSION_ID env var if no argument given
+# Show context summary for a session (falls back to $AGENT_SESSION_ID if no arg)
 python3 .claude/skills/claude-context/scripts/session_summary.py <session-id>
 
-# Filter sessions by project name
-python3 .claude/skills/claude-context/scripts/session_summary.py --project <name>
-
 # Use custom projects directory
-python3 .claude/skills/claude-context/scripts/session_summary.py --dir /path/to/projects
+python3 .claude/skills/claude-context/scripts/session_summary.py <session-id> --dir /path/to/projects
 ```
 
 ## Output

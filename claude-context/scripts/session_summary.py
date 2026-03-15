@@ -2,14 +2,11 @@
 """
 Claude Session Summary Tool
 
-Finds a Claude session by ID (or lists available sessions) and prints a summary
-matching the official /context report format.
+Finds a Claude session by ID and prints a summary matching the official /context report format.
 
 Usage:
-    python scripts/session_summary.py                          # list all sessions
     python scripts/session_summary.py <session-id>             # summarize by full ID
-    python scripts/session_summary.py <partial-id>             # match by prefix
-    python scripts/session_summary.py --project <project-dir>  # filter by project
+    python scripts/session_summary.py                          # uses $AGENT_SESSION_ID
 """
 
 import json
@@ -49,22 +46,18 @@ def get_claude_projects_dir() -> Path:
     return Path.home() / ".claude" / "projects"
 
 
-def find_all_sessions(projects_dir: Path, project_filter: str | None = None) -> list[Path]:
+def find_all_sessions(projects_dir: Path) -> list[Path]:
     sessions = []
     if not projects_dir.exists():
         return sessions
     for jsonl in projects_dir.rglob("*.jsonl"):
-        if project_filter and project_filter not in str(jsonl.parent.name):
-            continue
         sessions.append(jsonl)
-    sessions.sort(key=lambda p: p.stat().st_mtime, reverse=True)
     return sessions
 
 
-def match_session(sessions: list[Path], session_id: str) -> Path | None:
+def find_session(sessions: list[Path], session_id: str) -> Path | None:
     for s in sessions:
-        sid = s.stem
-        if sid == session_id or sid.startswith(session_id):
+        if s.stem == session_id:
             return s
     return None
 
@@ -310,8 +303,7 @@ def print_session_summary(summary: SessionSummary):
 
 def main():
     parser = argparse.ArgumentParser(description="Claude Session Summary Tool")
-    parser.add_argument("session_id", nargs="?", help="Session ID (full or prefix)")
-    parser.add_argument("--project", "-p", help="Filter sessions by project name substring")
+    parser.add_argument("session_id", nargs="?", help="Session ID")
     parser.add_argument("--dir", "-d", help="Claude projects directory (default: ~/.claude/projects)")
     args = parser.parse_args()
 
@@ -320,23 +312,16 @@ def main():
         print(f"Error: Projects directory not found: {projects_dir}", file=sys.stderr)
         sys.exit(1)
 
-    sessions = find_all_sessions(projects_dir, args.project)
-    if not sessions:
-        print("No sessions found.", file=sys.stderr)
-        sys.exit(1)
-
     session_id = args.session_id or os.environ.get("AGENT_SESSION_ID")
 
     if not session_id:
         print("Error: No session ID provided. Pass as argument or set AGENT_SESSION_ID.", file=sys.stderr)
         sys.exit(1)
 
-    match = match_session(sessions, session_id)
+    sessions = find_all_sessions(projects_dir)
+    match = find_session(sessions, session_id)
     if not match:
-        print(f"Error: No session matching '{session_id}'", file=sys.stderr)
-        print("Available sessions:")
-        for s in sessions[:10]:
-            print(f"  {s.stem}")
+        print(f"Error: No session found with ID '{session_id}'", file=sys.stderr)
         sys.exit(1)
 
     summary = parse_session(match)
