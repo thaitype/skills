@@ -4,14 +4,16 @@ My skills for Claude Code Agent. Use as reference and adjust to your own needs.
 
 ## Setup
 
-Skills are loaded by Claude Code from `.claude/skills/` in your project (or home directory). Copy any skill folder there to enable it.
+Skills are loaded by Claude Code from `.claude/skills/` in your project (or home directory).
+
+Install a skill directly from GitHub using `degit`:
 
 ```bash
-# Copy a skill into your project
-cp -r <skill-name> /path/to/your/project/.claude/skills/
+# Install to current project
+npx degit thaitype/skills/<skill-name> .claude/skills/<skill-name>
 
-# Or install globally (available in all projects)
-cp -r <skill-name> ~/.claude/skills/
+# Install globally (available in all projects)
+npx degit thaitype/skills/<skill-name> ~/.claude/skills/<skill-name>
 ```
 
 **Prerequisite:** Python 3 is required for skills that include scripts (`todo`, `claude-context`).
@@ -24,13 +26,21 @@ cp -r <skill-name> ~/.claude/skills/
 
 Get the current local time and date. No setup required.
 
+```bash
+npx degit thaitype/skills/time ~/.claude/skills/time
+```
+
 ---
 
 ### `claude-context`
 
 Check context window usage for Claude Code sessions by reading `.jsonl` session files.
 
-No installation required beyond copying the skill folder. By default reads from `~/.claude/projects/`.
+```bash
+npx degit thaitype/skills/claude-context ~/.claude/skills/claude-context
+```
+
+By default reads from `~/.claude/projects/`.
 
 **Environment variables:**
 
@@ -44,6 +54,10 @@ No installation required beyond copying the skill folder. By default reads from 
 ### `todo`
 
 Manage personal tasks and daily plans stored locally as a JSONL event log.
+
+```bash
+npx degit thaitype/skills/todo ~/.claude/skills/todo
+```
 
 **Setup:**
 
@@ -60,3 +74,7 @@ The file and directory are created automatically on first use.
 ### `skill-creator`
 
 Guidance for creating and packaging new skills. No setup required.
+
+```bash
+npx degit thaitype/skills/skill-creator ~/.claude/skills/skill-creator
+```
