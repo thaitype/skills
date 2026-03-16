@@ -16,7 +16,7 @@ npx degit thaitype/skills/<skill-name> .claude/skills/<skill-name>
 npx degit thaitype/skills/<skill-name> ~/.claude/skills/<skill-name>
 ```
 
-**Prerequisite:** Python 3 is required for skills that include scripts (`todo`, `claude-context`).
+**Prerequisite:** Python 3 is required for skills that include scripts (`todo`, `claude-context`, `claude-usage`).
 
 ---
 
@@ -68,6 +68,23 @@ The script resolves the data file path relative to the workspace root (`my-data/
 | `AGENT_TASKS_FILE` | `<workspace>/my-data/tasks.jsonl` | Path to the JSONL task file |
 
 The file and directory are created automatically on first use.
+
+---
+
+### `claude-usage`
+
+Show token usage and estimated API cost for a Claude Code session. Supports optional date range filtering.
+
+```bash
+npx degit thaitype/skills/claude-usage ~/.claude/skills/claude-usage
+```
+
+**Environment variables:**
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `CLAUDE_PROJECTS_DIR` | `~/.claude/projects` | Path to Claude projects directory |
+| `AGENT_SESSION_ID` | — | Session ID fallback when not passed as argument |
 
 ---
 
