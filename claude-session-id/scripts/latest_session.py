@@ -126,16 +126,17 @@ def main():
         role, text, ts = extract_last_message(session_path)
 
         if count == 1:
-            print(f"  Session: {sid}")
+            print(f"  Session ID: {sid}")
             if ts:
-                print(f"  Last active: {fmt_ts(ts)}")
+                print(f"  Date: {fmt_ts(ts)}")
             if text:
                 print(f"  Last message ({role}): {truncate(text)}")
         else:
-            time_str = f"  {fmt_ts(ts)}" if ts else ""
+            time_str = fmt_ts(ts) if ts else "—"
             msg_str = truncate(text, 100) if text else "(empty)"
-            print(f"  {i + 1}. {sid}{time_str}")
-            print(f"     [{role}] {msg_str}")
+            print(f"  {i + 1}. Session ID: {sid}")
+            print(f"     Date: {time_str}")
+            print(f"     Last message ({role}): {msg_str}")
             if i < count - 1:
                 print()
 

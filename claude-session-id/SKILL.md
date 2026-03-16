@@ -24,19 +24,22 @@ python3 .claude/skills/claude-session-id/scripts/latest_session.py --dir /path/t
 
 Single session (default):
 ```
-  Session: 82c946c8-1eb8-4c70-9414-813fc0a278e4
-  Last active: 2026-03-16 10:32
+  Session ID: 82c946c8-1eb8-4c70-9414-813fc0a278e4
+  Date: 2026-03-16 10:32
   Last message (assistant): Here's the updated README with setup instructions...
 ```
 
 Multiple sessions (`-n 3`):
 ```
-  1. 82c946c8-1eb8-4c70-9414-813fc0a278e4  2026-03-16 10:32
-     [assistant] Here's the updated README with setup instructions...
+  1. Session ID: 82c946c8-1eb8-4c70-9414-813fc0a278e4
+     Date: 2026-03-16 10:32
+     Last message (assistant): Here's the updated README with setup instructions...
 
-  2. a1b2c3d4-5678-9012-3456-789012345678  2026-03-15 18:00
-     [user] Can you fix the login bug?
+  2. Session ID: a1b2c3d4-5678-9012-3456-789012345678
+     Date: 2026-03-15 18:00
+     Last message (user): Can you fix the login bug?
 
-  3. f0e1d2c3-b4a5-9687-0123-456789abcdef  2026-03-14 09:15
-     [assistant] Done. The test suite passes now.
+  3. Session ID: f0e1d2c3-b4a5-9687-0123-456789abcdef
+     Date: 2026-03-14 09:15
+     Last message (assistant): Done. The test suite passes now.
 ```
