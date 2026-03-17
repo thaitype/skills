@@ -22,6 +22,12 @@ def get_claude_projects_dir() -> Path:
     return Path.home() / ".claude" / "projects"
 
 
+def encode_project_path(project_path: str) -> str:
+    """Encode a project path to match Claude's directory naming convention."""
+    resolved = str(Path(project_path).resolve())
+    return resolved.replace("/", "-")
+
+
 def find_sessions_sorted(projects_dir: Path) -> list[Path]:
     """Return all .jsonl session files sorted by modification time (newest first)."""
     if not projects_dir.exists():
@@ -107,12 +113,22 @@ def main():
                         help="Number of latest sessions to show (default: 1)")
     parser.add_argument("--dir", "-d",
                         help="Claude projects directory (default: ~/.claude/projects)")
+    parser.add_argument("--project", "-p",
+                        help="Filter sessions to a specific project path (e.g., /Users/thada/gits/myproject)")
     args = parser.parse_args()
 
     projects_dir = Path(args.dir) if args.dir else get_claude_projects_dir()
     if not projects_dir.exists():
         print(f"Error: Projects directory not found: {projects_dir}", file=sys.stderr)
         sys.exit(1)
+
+    if args.project:
+        encoded = encode_project_path(args.project)
+        projects_dir = projects_dir / encoded
+        if not projects_dir.exists():
+            print(f"Error: No sessions found for project: {args.project}", file=sys.stderr)
+            print(f"  Expected directory: {projects_dir}", file=sys.stderr)
+            sys.exit(1)
 
     sessions = find_sessions_sorted(projects_dir)
     if not sessions:

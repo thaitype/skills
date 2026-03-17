@@ -16,6 +16,12 @@ python3 .claude/skills/claude-session-id/scripts/latest_session.py
 # Show the N latest sessions
 python3 .claude/skills/claude-session-id/scripts/latest_session.py -n 5
 
+# Filter sessions by project path
+python3 .claude/skills/claude-session-id/scripts/latest_session.py -p /Users/thada/gits/myproject
+
+# Combine project filter with count
+python3 .claude/skills/claude-session-id/scripts/latest_session.py -p /Users/thada/gits/myproject -n 3
+
 # Use custom projects directory
 python3 .claude/skills/claude-session-id/scripts/latest_session.py --dir /path/to/projects
 ```
