@@ -11,6 +11,7 @@ My skills for Claude Code Agent. Use as reference and adjust to your own needs.
 | [`claude-session-id`](#claude-session-id) | Find latest Claude Code session ID(s) by project |
 | [`claude-context`](#claude-context) | Check context window usage for a session |
 | [`claude-usage`](#claude-usage) | Show token usage and estimated API cost for a session |
+| [`claude-session-log`](#claude-session-log) | Replay a session as a human-readable transcript or JSON |
 | [`skill-creator`](#skill-creator) | Guidance for creating and packaging new skills |
 
 ## Setup
@@ -27,7 +28,7 @@ npx degit thaitype/skills/<skill-name> .claude/skills/<skill-name>
 npx degit thaitype/skills/<skill-name> ~/.claude/skills/<skill-name>
 ```
 
-**Prerequisite:** Python 3 is required for skills that include scripts (`todo`, `claude-context`, `claude-usage`, `claude-session-id`).
+**Prerequisite:** Python 3 is required for skills that include scripts (`todo`, `claude-context`, `claude-usage`, `claude-session-id`, `claude-session-log`).
 
 ---
 
@@ -111,6 +112,33 @@ Show token usage and estimated API cost for a Claude Code session. Supports opti
 ```bash
 npx degit thaitype/skills/claude-usage ~/.claude/skills/claude-usage
 ```
+
+**Environment variables:**
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `CLAUDE_PROJECTS_DIR` | `~/.claude/projects` | Path to Claude projects directory |
+| `AGENT_SESSION_ID` | — | Session ID fallback when not passed as argument |
+
+---
+
+### `claude-session-log`
+
+Replay a Claude Code session as a human-readable transcript or structured JSON. Shows assistant text, tool calls, and tool results for every turn. Useful for debugging `claude -p` runs.
+
+```bash
+npx degit thaitype/skills/claude-session-log ~/.claude/skills/claude-session-log
+```
+
+**Options:**
+
+| Flag | Description |
+|------|-------------|
+| `--latest` | Auto-pick the most recent session |
+| `--json` | Output as structured JSON (no truncation) |
+| `--tools-only` | Show only turns with tool calls/results |
+| `--full` | Disable 500-char truncation on tool results |
+| `--dir <path>` | Override Claude projects directory |
 
 **Environment variables:**
 
