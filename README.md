@@ -12,6 +12,7 @@ My skills for Claude Code Agent. Use as reference and adjust to your own needs.
 | [`claude-context`](#claude-context) | Check context window usage for a session |
 | [`claude-usage`](#claude-usage) | Show token usage and estimated API cost for a session |
 | [`claude-session-log`](#claude-session-log) | Replay a session as a human-readable transcript or JSON |
+| [`claude-tui`](#claude-tui) | Send slash commands to a Claude TUI session via tmux |
 | [`skill-creator`](#skill-creator) | Guidance for creating and packaging new skills |
 
 ## Setup
@@ -28,7 +29,7 @@ npx degit thaitype/skills/<skill-name> .claude/skills/<skill-name>
 npx degit thaitype/skills/<skill-name> ~/.claude/skills/<skill-name>
 ```
 
-**Prerequisite:** Python 3 is required for skills that include scripts (`todo`, `claude-context`, `claude-usage`, `claude-session-id`, `claude-session-log`).
+**Prerequisite:** Python 3 is required for skills that include scripts (`todo`, `claude-context`, `claude-usage`, `claude-session-id`, `claude-session-log`, `claude-tui`).
 
 ---
 
@@ -138,6 +139,33 @@ npx degit thaitype/skills/claude-session-log ~/.claude/skills/claude-session-log
 | `--json` | Output as structured JSON (no truncation) |
 | `--tools-only` | Show only turns with tool calls/results |
 | `--full` | Disable 500-char truncation on tool results |
+| `--dir <path>` | Override Claude projects directory |
+
+**Environment variables:**
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `CLAUDE_PROJECTS_DIR` | `~/.claude/projects` | Path to Claude projects directory |
+| `AGENT_SESSION_ID` | — | Session ID fallback when not passed as argument |
+
+---
+
+### `claude-tui`
+
+Send slash commands (like `/context`, `/compact`, `/cost`) to a Claude Code TUI session via tmux and capture the output. Resumes the target session in a detached tmux pane, sends the command, waits for stable output, and tears down.
+
+```bash
+npx degit thaitype/skills/claude-tui ~/.claude/skills/claude-tui
+```
+
+**Prerequisites:** tmux (`brew install tmux`)
+
+**Options:**
+
+| Flag | Description |
+|------|-------------|
+| `--latest` | Auto-pick the most recent session |
+| `--timeout <secs>` | Max seconds to wait for output (default: 30) |
 | `--dir <path>` | Override Claude projects directory |
 
 **Environment variables:**
