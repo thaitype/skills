@@ -13,6 +13,7 @@ My skills for Claude Code Agent. Use as reference and adjust to your own needs.
 | [`claude-usage`](#claude-usage) | Show token usage and estimated API cost for a session |
 | [`claude-session-log`](#claude-session-log) | Replay a session as a human-readable transcript or JSON |
 | [`claude-tui`](#claude-tui) | Send slash commands to a Claude TUI session via tmux |
+| [`sync-git`](#sync-git) | Sync a git repo with remote — pull, auto-commit, push |
 | [`skill-creator`](#skill-creator) | Guidance for creating and packaging new skills |
 
 ## Setup
@@ -174,6 +175,26 @@ npx degit thaitype/skills/claude-tui ~/.claude/skills/claude-tui
 |----------|---------|-------------|
 | `CLAUDE_PROJECTS_DIR` | `~/.claude/projects` | Path to Claude projects directory |
 | `AGENT_SESSION_ID` | — | Session ID fallback when not passed as argument |
+
+---
+
+### `sync-git`
+
+Sync the current git repo with remote — fetch, pull with rebase, auto-commit all changes, and push with retry. Handles worktrees, stale locks, conflicts, and network errors with structured exit codes.
+
+```bash
+npx degit thaitype/skills/sync-git ~/.claude/skills/sync-git
+```
+
+**Exit codes:**
+
+| Code | Meaning |
+|------|---------|
+| `0` | Success |
+| `1` | Running inside a worktree (merge first) |
+| `2` | Rebase/merge conflict (manual resolution needed) |
+| `3` | Push rejected after 3 retries |
+| `4` | Network/SSH error |
 
 ---
 
