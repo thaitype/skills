@@ -1,0 +1,33 @@
+# Development sandbox container — isolated from the host except the project mount.
+# Manage via sandbox/sandbox.sh (up / down / exec / shell / rebuild / status).
+#
+# `name:` is required — without it, Compose defaults the project name to the
+# basename of this directory ("sandbox"), which is IDENTICAL across every
+# project scaffolded from this template. That collision makes Compose treat
+# unrelated sandboxes as the same project+service and recreate one on top of
+# the other. Never remove this line.
+name: __NAME__
+services:
+  sandbox:
+    build: .
+    image: __NAME__-sandbox:latest
+    container_name: __NAME__-sandbox
+    init: true
+    working_dir: /workspace
+    volumes:
+      # The ONLY host path visible inside the container — NOT the project root,
+      # so the sandbox's own Dockerfile/compose/sandbox.sh stay invisible (and
+      # unmodifiable) from inside the container itself.
+      - ../workspace:/workspace
+    # Resource limits — protect the host machine.
+    cpus: "4"
+    mem_limit: 4g
+    pids_limit: 2048
+    # Hardening: no privilege escalation inside the container.
+    security_opt:
+      - no-new-privileges:true
+    # Network is enabled for package downloads (npm/pip/apt).
+    # Publish dev-server ports here when needed, e.g.:
+    # ports:
+    #   - "127.0.0.1:3000:3000"
+    restart: unless-stopped
