@@ -8,6 +8,7 @@ My skills for Claude Code Agent. Use as reference and adjust to your own needs.
 |-------|-------------|
 | [`time`](#time) | Get the current local time and date |
 | [`todo`](#todo) | Manage personal tasks and daily plans |
+| [`money`](#money) | Track personal income, expenses, and transfers between accounts |
 | [`claude-session-id`](#claude-session-id) | Find latest Claude Code session ID(s) by project |
 | [`claude-context`](#claude-context) | Check context window usage for a session |
 | [`claude-usage`](#claude-usage) | Show token usage and estimated API cost for a session |
@@ -36,7 +37,7 @@ npx skills@latest add thaitype/skills --skill <skill-name>
 npx skills@latest add thaitype/skills --skill <skill-name> --global
 ```
 
-**Prerequisite:** Python 3 is required for skills that include scripts (`todo`, `claude-context`, `claude-usage`, `claude-session-id`, `claude-session-log`, `claude-tui`).
+**Prerequisite:** Python 3 is required for skills that include scripts (`todo`, `money`, `claude-context`, `claude-usage`, `claude-session-id`, `claude-session-log`, `claude-tui`).
 
 ---
 
@@ -69,6 +70,24 @@ The script resolves the data file path relative to the workspace root (`my-data/
 | `AGENT_TASKS_FILE` | `<workspace>/my-data/tasks.jsonl` | Path to the JSONL task file |
 
 The file and directory are created automatically on first use.
+
+---
+
+### `money`
+
+Track personal income, expenses, and transfers between accounts via a Python CLI. Supports adding transactions, transfers, listing/filtering history, categories/accounts management, balances, and income vs. expense summaries.
+
+```bash
+npx skills@latest add thaitype/skills --skill money
+```
+
+**Setup:**
+
+Data is stored in `data/skills_data/money/` (created automatically on first write). Override the location with an env var if needed:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MONEY_STATE_DIR` | `data/skills_data/money/` (relative to the script) | Path to the money data directory |
 
 ---
 
