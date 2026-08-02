@@ -15,19 +15,25 @@ My skills for Claude Code Agent. Use as reference and adjust to your own needs.
 | [`claude-tui`](#claude-tui) | Send slash commands to a Claude TUI session via tmux |
 | [`sync-git`](#sync-git) | Sync a git repo with remote — pull, auto-commit, push |
 | [`skill-creator`](#skill-creator) | Guidance for creating and packaging new skills |
+| [`docker-playwright`](#docker-playwright) | Run Playwright tests inside a shared Docker container |
+| [`sandbox-init`](#sandbox-init) | Scaffold an isolated Docker dev sandbox for a project |
+| [`sandbox-start`](#sandbox-start) | Reference for working inside an existing project sandbox |
 
 ## Setup
 
 Skills are loaded by Claude Code from `.claude/skills/` in your project (or home directory).
 
-Install a skill directly from GitHub using `degit`:
+Install with [`skills`](https://github.com/vercel-labs/skills):
 
 ```bash
-# Install to current project
-npx degit thaitype/skills/<skill-name> .claude/skills/<skill-name>
+# Install to current project (prompts you to select which skill(s) to add)
+npx skills@latest add thaitype/skills
+
+# Install a specific skill without prompting
+npx skills@latest add thaitype/skills --skill <skill-name>
 
 # Install globally (available in all projects)
-npx degit thaitype/skills/<skill-name> ~/.claude/skills/<skill-name>
+npx skills@latest add thaitype/skills --skill <skill-name> --global
 ```
 
 **Prerequisite:** Python 3 is required for skills that include scripts (`todo`, `claude-context`, `claude-usage`, `claude-session-id`, `claude-session-log`, `claude-tui`).
@@ -41,7 +47,7 @@ npx degit thaitype/skills/<skill-name> ~/.claude/skills/<skill-name>
 Get the current local time and date. Runs the system `date` command. No setup required.
 
 ```bash
-npx degit thaitype/skills/time ~/.claude/skills/time
+npx skills@latest add thaitype/skills --skill time
 ```
 
 ---
@@ -51,7 +57,7 @@ npx degit thaitype/skills/time ~/.claude/skills/time
 Manage personal tasks and daily plans stored locally as a JSONL event log. Supports add, list, update, check off, delete, and daily plan generation.
 
 ```bash
-npx degit thaitype/skills/todo ~/.claude/skills/todo
+npx skills@latest add thaitype/skills --skill todo
 ```
 
 **Setup:**
@@ -71,7 +77,7 @@ The file and directory are created automatically on first use.
 Find the latest Claude Code session ID(s) with their last message. Supports filtering by project path (`-p`) and showing multiple sessions (`-n`).
 
 ```bash
-npx degit thaitype/skills/claude-session-id ~/.claude/skills/claude-session-id
+npx skills@latest add thaitype/skills --skill claude-session-id
 ```
 
 **Options:**
@@ -95,7 +101,7 @@ npx degit thaitype/skills/claude-session-id ~/.claude/skills/claude-session-id
 Check context window usage for Claude Code sessions by reading `.jsonl` session files. Shows tokens used, free space, autocompact buffer, session info, and last message.
 
 ```bash
-npx degit thaitype/skills/claude-context ~/.claude/skills/claude-context
+npx skills@latest add thaitype/skills --skill claude-context
 ```
 
 **Environment variables:**
@@ -112,7 +118,7 @@ npx degit thaitype/skills/claude-context ~/.claude/skills/claude-context
 Show token usage and estimated API cost for a Claude Code session. Supports optional date range filtering and per-model breakdown.
 
 ```bash
-npx degit thaitype/skills/claude-usage ~/.claude/skills/claude-usage
+npx skills@latest add thaitype/skills --skill claude-usage
 ```
 
 **Environment variables:**
@@ -129,7 +135,7 @@ npx degit thaitype/skills/claude-usage ~/.claude/skills/claude-usage
 Replay a Claude Code session as a human-readable transcript or structured JSON. Shows assistant text, tool calls, and tool results for every turn. Useful for debugging `claude -p` runs.
 
 ```bash
-npx degit thaitype/skills/claude-session-log ~/.claude/skills/claude-session-log
+npx skills@latest add thaitype/skills --skill claude-session-log
 ```
 
 **Options:**
@@ -156,7 +162,7 @@ npx degit thaitype/skills/claude-session-log ~/.claude/skills/claude-session-log
 Send slash commands (like `/context`, `/compact`, `/cost`) to a Claude Code TUI session via tmux and capture the output. Resumes the target session in a detached tmux pane, sends the command, waits for stable output, and tears down.
 
 ```bash
-npx degit thaitype/skills/claude-tui ~/.claude/skills/claude-tui
+npx skills@latest add thaitype/skills --skill claude-tui
 ```
 
 **Prerequisites:** tmux (`brew install tmux`)
@@ -183,7 +189,7 @@ npx degit thaitype/skills/claude-tui ~/.claude/skills/claude-tui
 Sync the current git repo with remote — fetch, pull with rebase, auto-commit all changes, and push with retry. Handles worktrees, stale locks, conflicts, and network errors with structured exit codes.
 
 ```bash
-npx degit thaitype/skills/sync-git ~/.claude/skills/sync-git
+npx skills@latest add thaitype/skills --skill sync-git
 ```
 
 **Exit codes:**
@@ -203,5 +209,39 @@ npx degit thaitype/skills/sync-git ~/.claude/skills/sync-git
 Guidance for creating and packaging new skills. Covers skill anatomy, design principles, progressive disclosure, and the full creation workflow. No setup required.
 
 ```bash
-npx degit thaitype/skills/skill-creator ~/.claude/skills/skill-creator
+npx skills@latest add thaitype/skills --skill skill-creator
+```
+
+---
+
+### `docker-playwright`
+
+Run Playwright tests for the current project inside a shared, long-lived Docker container (the `pw` container, running the official `mcr.microsoft.com/playwright` image with `$HOME/gits` mounted at `/work`).
+
+```bash
+npx skills@latest add thaitype/skills --skill docker-playwright
+```
+
+**Prerequisites:** Docker
+
+---
+
+### `sandbox-init`
+
+Scaffold an isolated Docker dev sandbox in the current project directory, so all builds/runs/tests happen inside a container instead of on the host. Generic — not tied to any specific project type.
+
+```bash
+npx skills@latest add thaitype/skills --skill sandbox-init
+```
+
+**Prerequisites:** Docker
+
+---
+
+### `sandbox-start`
+
+Reference for working inside a project that already has a `sandbox/` directory (from `sandbox-init`) — the sandbox rule, exec/shell conventions, and how to think about upgrading it over time. No parameters, no automation.
+
+```bash
+npx skills@latest add thaitype/skills --skill sandbox-start
 ```
