@@ -20,6 +20,9 @@ My skills for Claude Code Agent. Use as reference and adjust to your own needs.
 | [`sandbox-init`](#sandbox-init) | Scaffold an isolated Docker dev sandbox for a project |
 | [`sandbox-start`](#sandbox-start) | Reference for working inside an existing project sandbox |
 
+See also: [typ-fleet skills](#typ-fleet-skills) — a dedicated section below for skills that depend
+on the typ-fleet ecosystem rather than working standalone.
+
 ## Setup
 
 Skills are loaded by Claude Code from `.claude/skills/` in your project (or home directory).
@@ -264,3 +267,32 @@ Reference for working inside a project that already has a `sandbox/` directory (
 ```bash
 npx skills@latest add thaitype/skills --skill sandbox-start
 ```
+
+---
+
+## typ-fleet skills
+
+Skills under [`typ-fleet-skills/`](typ-fleet-skills/). **Not standalone** — they reference the
+`ship` CLI (`ship peek`, `ship ls --json`, `ship cron add`, etc.) and a `locker/` convention that
+only exists in a crew's home in that ecosystem. They will not do anything useful dropped into an
+unrelated project without adapting those references first.
+
+| Skill | Description |
+|-------|-------------|
+| [`typ-direct-work`](typ-fleet-skills/typ-direct-work/SKILL.md) | Discipline for directing work carried out by other crews |
+| [`typ-do-work`](typ-fleet-skills/typ-do-work/SKILL.md) | Discipline for crews doing work assigned by a director |
+
+### `typ-direct-work`
+
+For a crew directing work carried out by other crews: hold the commissioner's literal brief,
+follow up on a fixed timer backed by a state file, filter every arrival against the right
+engagement, verify the load-bearing claim yourself, and close only on the commissioner's quoted
+acceptance.
+
+---
+
+### `typ-do-work`
+
+For a crew doing work assigned by a director: prove your checks can actually fail, verify from a
+cold state rather than your warm machine, report not-done when a check doesn't hold, and name what
+you did not establish.
