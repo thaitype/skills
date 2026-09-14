@@ -19,6 +19,7 @@ My skills for Claude Code Agent. Use as reference and adjust to your own needs.
 | [`docker-playwright`](#docker-playwright) | Run Playwright tests inside a shared Docker container |
 | [`sandbox-init`](#sandbox-init) | Scaffold an isolated Docker dev sandbox for a project |
 | [`sandbox-start`](#sandbox-start) | Reference for working inside an existing project sandbox |
+| [`english-teacher-roleplay`](#english-teacher-roleplay) | Roleplay partner + English teacher giving Thai feedback notes |
 
 See also: [typ-fleet skills](#typ-fleet-skills) — a dedicated section below for skills that depend
 on the typ-fleet ecosystem rather than working standalone.
@@ -266,6 +267,16 @@ Reference for working inside a project that already has a `sandbox/` directory (
 
 ```bash
 npx skills@latest add thaitype/skills --skill sandbox-start
+```
+
+---
+
+### `english-teacher-roleplay`
+
+Turns Claude into an English-speaking roleplay partner who also acts as an English teacher — stays in character replying in English, then adds a short, friendly Thai feedback note pointing out grammar, word choice, or naturalness fixes each turn.
+
+```bash
+npx skills@latest add thaitype/skills --skill english-teacher-roleplay
 ```
 
 ---
